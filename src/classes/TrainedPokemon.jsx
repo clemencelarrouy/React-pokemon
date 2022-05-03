@@ -6,6 +6,7 @@ class TrainedPokemon extends Component {
 
     this.state = {
       xp: 0,
+      idInterval : null
     };
     this.gainExp = this.gainExp.bind(this);
   }
@@ -17,18 +18,31 @@ class TrainedPokemon extends Component {
     });
   }
 
-  render() {
-    const { name, src } = this.props;
-    const { xp } = this.state;
+  componentDidMount() {
+    const idInterval = setInterval(
+        () => {
+          this.setState({
+            xp : this.state.xp + 100
+          })
+        }, 1000
+    )
+    this.setState({
+      idInterval
+    })
+  }
 
-    function displayName() {
-      console.log('Je suis', name);
-    }
+  componentWillUnmount() {
+    clearInterval(this.state.idInterval)
+  }
+
+  render() {
+    const { name, src, action2 } = this.props;
+    const { xp } = this.state;
 
     return (
       <li
         className="TrainedPokemon"
-        onClick={displayName}
+        onClick={action2}
         onMouseMove={this.gainExp}
       >
         <div className="name">{name}</div>

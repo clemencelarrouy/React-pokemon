@@ -3,10 +3,10 @@ import Pokemon from './Pokemon';
 
 class PokemonList extends Component {
   render() {
-    const { pokemons } = this.props;
+    const { pokemons, action } = this.props;
 
     const instances = pokemons.map(item => {
-      return <Pokemon key={item.id} {...item} />;
+      return <Pokemon key={item.id} {...item} action2={()=>action(item)}/>;
     });
 
     return <ul className="PokemonList list">{instances}</ul>;

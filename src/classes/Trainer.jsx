@@ -3,15 +3,16 @@ import TrainedPokemon from './TrainedPokemon';
 
 class Trainer extends Component {
   render() {
-    const { name, address, bag } = this.props;
-
+    const { name, address, bag, action } = this.props;
+    console.log(bag)
     const instances = bag.map(item => {
       return (
         <TrainedPokemon
-          key={item.id}
+          key={item.trainedId}
           name={item.name}
           weight={item.weight}
           src={item.sprites.back_default}
+          action2 = {()=>action(item.trainedId)}
         />
       );
     });

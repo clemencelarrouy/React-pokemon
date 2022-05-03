@@ -51,3 +51,19 @@ code {
 }
 
 .bag { display : flex}
+.Filters{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+button{
+  color: black;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: .5em 1em;
+}
+button.active{
+  color: green;
+  border: 1px solid green;
+  border-radius: 4px;
+}

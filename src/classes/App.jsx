@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Trainer from './Trainer';
 import PokemonList from './PokemonList';
 import Filters from './Filters';
-import { url } from "../utils/Constants";
+import fetchPokemons from "../utils/fetchPokemon";
 
 class App extends Component {
   constructor(props) {
@@ -14,18 +14,30 @@ class App extends Component {
       data: [],
     };
     this.selectType = this.selectType.bind(this);
+    this.updateBag = this.updateBag.bind(this)
+    this.releasePokemon = this.releasePokemon.bind(this)
   }
 
-
-  async componentDidMount() {
-    fetch(url)
-        .then(res => res.json())
-        .then(result => {
-          this.setState({
-            data: result
-          });
-        });
-}
+/*
+Utiliser la function du prof
+ */
+  componentDidMount() {
+    fetchPokemons()
+        // .then permet de récupérer la promise
+        .then(
+            results => {
+              this.setState({
+                data : results
+              })
+            }
+        )
+        // .catch permet de récupérer les errors si la requete n'aboutie pas.
+        .catch(
+            errors => {
+              console.error(errors)
+            }
+        )
+  }
 
   selectType(t) {
     const { selected } = this.state;
@@ -35,13 +47,38 @@ class App extends Component {
     });
   }
 
+  updateBag(pokemonObject){
+      const newPokemon = {...pokemonObject};
+      newPokemon.trainedId = Date.now();
+
+      //const newPokemon = {...pokemonObject, trainedId: Date.now()} Autre facon de l'ecrire
+      console.log("Nouveau pokemon", newPokemon)
+          if (this.state.bag){
+              this.setState({
+                      bag : [...this.state.bag, newPokemon]
+
+                  }
+              )
+          }else{
+              this.setState({
+                      bag : [newPokemon]
+                  }
+              )
+          }
+  }
+
+  releasePokemon(pokemonReleased){
+
+      this.setState({
+          bag: this.state.bag.filter(item => item.trainedId !== pokemonReleased)
+      })
+  }
+
   render() {
     const { data } = this.state;
-    console.log('premier', data);
-    //console.log('DATA', data.results);
+
     const { selected } = this.state;
-    const bag = [];
-    
+    const bag = this.state.bag ? this.state.bag : [];
 
     const deepTypes = data.map(p => p.types.map(t => t.type.name));
     const flatTypes = deepTypes.flat();
@@ -55,13 +92,13 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Trainer name="Clémence" address="Bourgpalette" bag={bag} />
+        <Trainer name="Clémence" address="Bourgpalette" bag={bag} action={this.releasePokemon} />
         <Filters
           types={uniqueTypes}
           active={selected}
           filter={this.selectType}
         />
-        <PokemonList pokemons={pokemonsToDisplay} />
+        <PokemonList pokemons={pokemonsToDisplay} action={this.updateBag} />
       </div>
     );
   }

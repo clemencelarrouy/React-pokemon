@@ -35,11 +35,12 @@ class Pokemon extends Component {
     const {
       name,
       weight,
+      action2,
       sprites: { front_default: src },
     } = this.props;
 
     return (
-      <li className="Pokemon" onClick={this.displayName}>
+      <li className="Pokemon" onClick={action2}>
         <div className="name">{name}</div>
         <div className="weight">{weight}</div>
         {src && <img src={src} alt={name} />}
