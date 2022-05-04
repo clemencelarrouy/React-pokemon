@@ -3,6 +3,7 @@ import Trainer from './Trainer';
 import PokemonList from './PokemonList';
 import Filters from './Filters';
 import fetchPokemons from "../utils/fetchPokemon";
+import Header from './Header';
 
 class App extends Component {
   constructor(props) {
@@ -49,7 +50,6 @@ class App extends Component {
     const newPokemon = {...pokemonObject}; // pourquoi on doit étaler le pokemon
     newPokemon.trainedId = Date.now();
 
-    //const newPokemon = {...pokemonObject, trainedId: Date.now()} Autre facon de l'ecrire
         if (this.state.bag){
             this.setState({
                     bag : [...this.state.bag, newPokemon]
@@ -81,6 +81,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        < Header />
         <Trainer name="Clémence" address="Bourgpalette" bag={bag} action={this.freePokemon} />
         <Filters
           types={uniqueTypes}

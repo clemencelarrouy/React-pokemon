@@ -11,14 +11,14 @@ code {
 }
 
 .name {
-  color: red;
+  color: rgb(2 132 199);
 }
-
-.App {}
 
 .list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
+
 }
 
 .Pokemon,
@@ -30,7 +30,8 @@ code {
   width: fit-content;
   padding: 1rem;
   margin: 1rem;
-  border: 1px solid black;
+  border-radius : 5px ;
+  border: 1px solid grey;
 }
 
 .Pokemon .name, .TrainedPokemon .name {
@@ -41,17 +42,40 @@ code {
   display: flex;
   align-items: baseline;
   background: lightblue;
-
+  flex-direction: column;
+  align-items: center;
+  padding-bottom : 50px;
 }
 
 .active { 
-  background: lightblue;
+  background: rgb(2 132 199);
+  color : yellow;
  }
- 
+
 .Trainer .name {
   margin: 1rem;
   color: unset;
   font-size: 1.5rem;
 }
 
+.Trainer ul .name {
+  margin: 1rem;
+  color: unset;
+  font-size: 1.5rem;
+  color : yellow;
+}
+
 .bag { display : flex}
+
+.Filters {
+  text-align: center;
+  margin: 50px;
+}
+
+.Filters button {
+  margin : 0px 10px ;
+  padding : 12px ; 
+  border-radius : 5px ;
+  border: 1px solid grey;
+}
+
