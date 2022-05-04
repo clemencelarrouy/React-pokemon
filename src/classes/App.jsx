@@ -2,30 +2,33 @@ import React, { Component } from 'react';
 import Trainer from './Trainer';
 import PokemonList from './PokemonList';
 import Filters from './Filters';
-import { url } from "../utils/Constants";
+import fetchPokemons from "../utils/fetchPokemon";
 
 class App extends Component {
   constructor(props) {
     super(props);
-
+// pourquoi des fois ça peut être defini comme tableau et non null
     this.state = {
-      selected: null,
-      bag: [],
       data: [],
+      selected: null,
+      bag: [], 
     };
     this.selectType = this.selectType.bind(this);
+    this.freePokemon = this.freePokemon.bind(this);
+    this.updateBag = this.updateBag.bind(this);
   }
 
 
-  async componentDidMount() {
-    fetch(url)
-        .then(res => res.json())
-        .then(result => {
-          this.setState({
-            data: result
-          });
-        });
-}
+  componentDidMount() {
+    fetchPokemons()
+        .then(
+            results => {
+              this.setState({
+                data : results
+              })
+            }
+        )
+  }
 
   selectType(t) {
     const { selected } = this.state;
@@ -35,14 +38,37 @@ class App extends Component {
     });
   }
 
+  freePokemon(pokemonFreedom){
+
+    this.setState({
+        bag: this.state.bag.filter(item => item.trainedId !== pokemonFreedom)
+    })
+  }
+
+  updateBag(pokemonObject){
+    const newPokemon = {...pokemonObject}; // pourquoi on doit étaler le pokemon
+    newPokemon.trainedId = Date.now();
+
+    //const newPokemon = {...pokemonObject, trainedId: Date.now()} Autre facon de l'ecrire
+        if (this.state.bag){
+            this.setState({
+                    bag : [...this.state.bag, newPokemon]
+
+                }
+            )
+        }else{
+            this.setState({
+                    bag : [newPokemon]
+                }
+            )
+        }
+  }
+
   render() {
     const { data } = this.state;
-    console.log('premier', data);
-    //console.log('DATA', data.results);
     const { selected } = this.state;
-    const bag = [];
+    const bag = this.state.bag; // pourquoi bag n'est pas entre crochet
     
-
     const deepTypes = data.map(p => p.types.map(t => t.type.name));
     const flatTypes = deepTypes.flat();
     const uniqueTypes = [...new Set(flatTypes)];
@@ -55,13 +81,13 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Trainer name="Clémence" address="Bourgpalette" bag={bag} />
+        <Trainer name="Clémence" address="Bourgpalette" bag={bag} action={this.freePokemon} />
         <Filters
           types={uniqueTypes}
           active={selected}
           filter={this.selectType}
         />
-        <PokemonList pokemons={pokemonsToDisplay} />
+        <PokemonList pokemons={pokemonsToDisplay} action={this.updateBag} />
       </div>
     );
   }

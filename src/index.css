@@ -44,6 +44,10 @@ code {
 
 }
 
+.active { 
+  background: lightblue;
+ }
+ 
 .Trainer .name {
   margin: 1rem;
   color: unset;

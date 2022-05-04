@@ -3,7 +3,7 @@ import TrainedPokemon from './TrainedPokemon';
 
 class Trainer extends Component {
   render() {
-    const { name, address, bag } = this.props;
+    const { name, address, bag , action } = this.props;
 
     const instances = bag.map(item => {
       return (
@@ -12,6 +12,7 @@ class Trainer extends Component {
           name={item.name}
           weight={item.weight}
           src={item.sprites.back_default}
+          actionB = {()=>action(item.trainedId)}
         />
       );
     });

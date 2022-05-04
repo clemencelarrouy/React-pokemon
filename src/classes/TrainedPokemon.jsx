@@ -6,7 +6,9 @@ class TrainedPokemon extends Component {
 
     this.state = {
       xp: 0,
+      idInterval : null
     };
+
     this.gainExp = this.gainExp.bind(this);
   }
 
@@ -17,18 +19,31 @@ class TrainedPokemon extends Component {
     });
   }
 
-  render() {
-    const { name, src } = this.props;
-    const { xp } = this.state;
+  componentDidMount() {
+    const idInterval = setInterval(
+        () => {
+          this.setState({
+            xp : this.state.xp + 10
+          })
+        }, 500
+    )
+    this.setState({
+      idInterval
+    })
+  } // pourquoi utiliser componentdidmount sachant que ce n'est pas une action qu'on fait qu'une fois 
 
-    function displayName() {
-      console.log('Je suis', name);
-    }
+  componentWillUnmount() {
+    clearInterval(this.state.idInterval)
+  }
+
+  render() {
+    const { name, src , actionB } = this.props;
+    const { xp } = this.state;
 
     return (
       <li
         className="TrainedPokemon"
-        onClick={displayName}
+        onClick={actionB}
         onMouseMove={this.gainExp}
       >
         <div className="name">{name}</div>

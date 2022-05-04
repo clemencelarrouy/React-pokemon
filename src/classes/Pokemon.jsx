@@ -7,39 +7,19 @@ class Pokemon extends Component {
     this.state = {
       idInterval: null,
     };
-    this.displayName = this.displayName.bind(this);
-  }
-
-  // componentDidMount() {
-  //   if (this.props.id === 1) {
-  //     const idInterval = setInterval(() => {
-  //       console.log('COUCOU', this.props.name);
-  //     }, 1000);
-
-  //     this.setState({
-  //       idInterval,
-  //     });
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   clearInterval(this.state.idInterval);
-  //   this.setState({ idInterval: null });
-  // }
-
-  displayName() {
-    console.log('Je suis', this.props.name);
+   
   }
 
   render() {
     const {
       name,
       weight,
-      sprites: { front_default: src },
+      actionB,
+      sprites: { front_default: src }, // pourquoi sprites pour definir l'image
     } = this.props;
 
     return (
-      <li className="Pokemon" onClick={this.displayName}>
+      <li className="Pokemon" onClick={actionB}>
         <div className="name">{name}</div>
         <div className="weight">{weight}</div>
         {src && <img src={src} alt={name} />}
