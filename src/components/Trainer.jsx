@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import TrainedPokemon from './TrainedPokemon';
 
-class Trainer extends Component {
+class Trainer extends React.PureComponent {
   render() {
     const { name, address, bag , action } = this.props;
 

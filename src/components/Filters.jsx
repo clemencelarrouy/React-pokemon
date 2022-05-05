@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class Filters extends Component {
-  render(){
-    const { types, filter, active } = this.props;
+function Filters(props) {
+  
+    const { types, filter, active } = props;
 
     const buttons = types.map(type => (
       <button
@@ -16,6 +16,6 @@ class Filters extends Component {
     ));
 
     return <ul className="Filters">{buttons}</ul>;
-}}
+}
 
-export default Filters;
+export default React.memo(Filters);

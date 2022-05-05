@@ -30,8 +30,7 @@ code {
   width: fit-content;
   padding: 1rem;
   margin: 1rem;
-  border-radius : 5px ;
-  border: 1px solid grey;
+  border-radius : 10px ;
 }
 
 .Pokemon .name, .TrainedPokemon .name {
@@ -73,7 +72,7 @@ code {
 }
 
 .Filters button {
-  margin : 0px 10px ;
+  margin : 5px 10px ;
   padding : 12px ; 
   border-radius : 5px ;
   border: 1px solid grey;

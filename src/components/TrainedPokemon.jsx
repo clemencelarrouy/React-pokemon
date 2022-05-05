@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {PureComponent} from 'react';
 
-class TrainedPokemon extends Component {
+class TrainedPokemon extends PureComponent {
   constructor() {
     super();
 
@@ -13,24 +13,20 @@ class TrainedPokemon extends Component {
   }
 
   gainExp() {
-    const { xp } = this.state;
-    this.setState({
-      xp: xp + 10,
-    });
+    
+    this.setState(previous => ({ 
+        xp : previous.xp + 10 
+    }))
   }
 
   componentDidMount() {
     const idInterval = setInterval(
-        () => {
-          this.setState({
-            xp : this.state.xp + 10
-          })
-        }, 500
+       this.gainExp , 1000
     )
     this.setState({
       idInterval
     })
-  } // pourquoi utiliser componentdidmount sachant que ce n'est pas une action qu'on fait qu'une fois 
+  } 
 
   componentWillUnmount() {
     clearInterval(this.state.idInterval)

@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Trainer from './Trainer';
 import PokemonList from './PokemonList';
 import Filters from './Filters';
 import fetchPokemons from "../utils/fetchPokemon";
 import Header from './Header';
+import DotLoader from 'react-spinners/DotLoader';
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
 // pourquoi des fois ça peut être defini comme tableau et non null
@@ -13,6 +14,7 @@ class App extends Component {
       data: [],
       selected: null,
       bag: [], 
+      loading : true
     };
     this.selectType = this.selectType.bind(this);
     this.freePokemon = this.freePokemon.bind(this);
@@ -23,9 +25,10 @@ class App extends Component {
   componentDidMount() {
     fetchPokemons()
         .then(
-            results => {
+            data => {
               this.setState({
-                data : results
+                data, 
+                loading : false
               })
             }
         )
@@ -34,13 +37,11 @@ class App extends Component {
   selectType(t) {
     const { selected } = this.state;
 
-    this.setState({
-      selected: selected === t ? null : t,
-    });
-  }
+    this.setState(prevState => ({ selected : prevState.selected === t ? null : t }));
+  
+  } 
 
   freePokemon(pokemonFreedom){
-
     this.setState({
         bag: this.state.bag.filter(item => item.trainedId !== pokemonFreedom)
     })
@@ -68,6 +69,7 @@ class App extends Component {
     const { data } = this.state;
     const { selected } = this.state;
     const bag = this.state.bag; // pourquoi bag n'est pas entre crochet
+    const loading = this.state.loading;
     
     const deepTypes = data.map(p => p.types.map(t => t.type.name));
     const flatTypes = deepTypes.flat();
@@ -79,6 +81,7 @@ class App extends Component {
         )
       : data;
 
+
     return (
       <div className="App">
         < Header />
@@ -88,10 +91,14 @@ class App extends Component {
           active={selected}
           filter={this.selectType}
         />
-        <PokemonList pokemons={pokemonsToDisplay} action={this.updateBag} />
+       { loading ? ( <div className='block mt-20 mx-auto'> <DotLoader /> </div> ) :( <PokemonList pokemons={pokemonsToDisplay} action={this.updateBag} /> )}
       </div>
     );
   }
 }
 
 export default App;
+
+
+// formulaire : rechercher un pokemon 
+// formulaire : rentrer son prenom avec un trop court 
